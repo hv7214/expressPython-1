@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2015
+image: Visual Studio 2019
 environment:
   PYTHON37_LOCATION: C:\Python37
   QT_DIR: C:\Qt\5.9\mingw53_32
@@ -8,7 +8,19 @@ build_script:
 - cmd: >-
     echo %PATH%
 
-    C:\Qt\5.9\mingw53_32\bin\qmake.exe PyRun.pro
+    mkdir C:\projects\expresspython\ANTLR4runtime\build
+    
+    cd C:\projects\expresspython\ANTLR4runtime\build
+
+    cmake.exe ..  -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND"
+    
+    C:\MinGW\bin\mingw32-make.exe DESTDIR=../run
+
+    cd ../..
+
+    mkdir build && mkdir run && cd build 
+
+    cmake.exe .. -G "MinGW Makefiles"
 
     C:\MinGW\bin\mingw32-make.exe
 
