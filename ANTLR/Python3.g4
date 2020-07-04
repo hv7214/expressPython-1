@@ -36,7 +36,9 @@ grammar Python3;
 tokens { INDENT, DEDENT }
  
 @lexer::header{
-    #include<bits/stdc++.h>
+    #include<list>
+    #include<stack>
+    #include<regex>
     #include "Python3Parser.h"
     using namespace std;
     using namespace antlr4;

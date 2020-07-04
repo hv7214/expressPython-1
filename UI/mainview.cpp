@@ -6,7 +6,6 @@
 #include <QSettings>
 #include <QStringListModel>
 #include <QDebug>
-#include "CodeEditor/antlrsyntaxhighlighter.h"
 MainView::MainView(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainView) {
     ui->setupUi(this);

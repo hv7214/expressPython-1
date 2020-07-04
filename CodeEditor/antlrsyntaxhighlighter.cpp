@@ -1,4 +1,8 @@
 #include "CodeEditor/antlrsyntaxhighlighter.h"
+#include "antlr4-runtime.h"
+#include "ANTLR/Python3Lexer.h"
+#include "ANTLR/Python3Parser.h"
+#include "ANTLR/Python3Listener.h"
 
 ANTLRSyntaxHighlighter::ANTLRSyntaxHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent) {

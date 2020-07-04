@@ -2,10 +2,6 @@
 #define KICKANTLRSYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
-#include "antlr4-runtime.h"
-#include "ANTLR/Python3Lexer.h"
-#include "ANTLR/Python3Parser.h"
-#include "ANTLR/Python3Listener.h"
 #include "ANTLR/customtoken.h"
 
 //! Implementation of highlighting for Python code.

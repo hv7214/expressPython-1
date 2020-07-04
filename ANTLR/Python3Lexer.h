@@ -1,5 +1,7 @@
 
-    #include<bits/stdc++.h>
+    #include<stack>
+    #include<list>
+    #include<regex>
     #include "Python3Parser.h"
     using namespace std;
     using namespace antlr4;

@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 
@@ -83,18 +84,21 @@ if(WIN32)
 elseif(APPLE)
     set(PYTHON3_LIB_LOCATION $ENV{PYTHON3_LIB_LOCATION})
     set(PYTHON3_INC_LOCATION $ENV{PYTHON3_INC_LOCATION})
+    set(QTERMWIDGET_LIB_LOCATION $ENV{QTERMWIDGET_LIB_LOCATION})
+    set(QTERMWIDGET_INC_LOCATION $ENV{QTERMWIDGET_INC_LOCATION})
     set(LIBS
         ${PYTHON3_LIB_LOCATION}
-        qtermwidget5
+        ${CMAKE_SOURCE_DIR}/${QTERMWIDGET_LIB_LOCATION}5
         ${CMAKE_SOURCE_DIR}/${ANTLR_LIB_LOCATION}
     )
     set(INCLUDES
         ${PYTHON3_INC_LOCATION}
+        ${CMAKE_SOURCE_DIR}/${QTERMWIDGET_INC_LOCATION}
         ${CMAKE_SOURCE_DIR}/${ANTLR_INC_LOCATION}
     )
-    set(ICON Icons/PyRunImg.icns)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        MACOSX_BUNDLE YES
+    set_target_properties(expressPython PROPERTIES
+        MACOSX_BUNDLE_ICON_FILE "Icons/PyRunImg.icns"
+        MACOSX_BUNDLE_BUNDLE_NAME "expressPython"
     )
 # UNIX specific config
 elseif(UNIX)
@@ -129,24 +133,30 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 )
 
 # CREATE DEBIAN PACKAGE
-if(UNIX) 
+set(CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/share/expressPython.png )
+
+if(APPLE) 
+    set(CPACK_GENERATOR "DragNDrop")
+    set(CPACK_DMG_BACKGROUND_IMAGE ${CMAKE_SOURCE_DIR}/share/expressPython.png)
+    include(CPack)
+elseif(UNIX) 
     set(EXPRESSPYTHON_DESKTOP_DIR     "/usr/share/applications/")
     set(EXPRESSPYTHON_PIXMAPS_DIR     "/usr/share/icons/")
 
-    install (FILES  ${CMAKE_SOURCE_DIR}/share/expressPython.desktop 
+    install (FILES  ${CMAKE_SOURCE_DIR}/share/Linux/expressPython.desktop 
         DESTINATION ${EXPRESSPYTHON_DESKTOP_DIR} 
     )
     install (FILES  ${CMAKE_SOURCE_DIR}/share/expressPython.png 
         DESTINATION ${EXPRESSPYTHON_PIXMAPS_DIR} 
     )
-    install(TARGETS expressPython
+    install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION "/usr/bin/"
         LIBRARY DESTINATION "/usr/bin/"
         DESTINATION "/usr/bin/"
     )
     set(CPACK_GENERATOR "DEB")
-    # SET(CPACK_DEBIAN_PACKAGE_DEPENDS "build-essential qt5-default uuid-dev libglib2.0-dev ttools5-dev")
+    SET(CPACK_DEBIAN_PACKAGE_DEPENDS "build-essential qt5-default uuid-dev libglib2.0-dev ttools5-dev")
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "LeopardsLab") 
     set(CPACK_PACKAGE_EXECUTABLES "expressPython" "expressPython")
     include(CPack)
-endif(UNIX)
+endif()
